@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ResumeSmart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f6fa; }
+        nav {
+            background: #2c3e50;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 { color: white; font-size: 24px; }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        nav a:hover { color: #3498db; }
+        .welcome {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .welcome h2 { font-size: 32px; margin-bottom: 10px; }
+        .welcome p { font-size: 16px; opacity: 0.9; }
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 50px 40px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: #2c3e50;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        .icon { font-size: 45px; margin-bottom: 15px; }
+        .card h3 { font-size: 18px; margin-bottom: 8px; }
+        .card p { font-size: 13px; color: #666; }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <h1>ResumeSmart</h1>
+    <div>
+        <span style="color:white;">Hello, {{ name }}!</span>
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="welcome">
+    <h2>Welcome, {{ name }}! 👋</h2>
+    <p>What would you like to do today?</p>
+</div>
+
+<div class="cards">
+    <a href="/upload" class="card">
+        <div class="icon">📄</div>
+        <h3>Upload Resume</h3>
+        <p>Upload your PDF resume for analysis</p>
+    </a>
+    <a href="/analyze" class="card">
+        <div class="icon">🎯</div>
+        <h3>Match Score</h3>
+        <p>Check how well you match a job role</p>
+    </a>
+    <a href="/skillgap" class="card">
+        <div class="icon">📊</div>
+        <h3>Skill Gap</h3>
+        <p>Find missing skills for your dream job</p>
+    </a>
+    <a href="/resumescore" class="card">
+        <div class="icon">⭐</div>
+        <h3>Resume Score</h3>
+        <p>Get quality score and improvement tips</p>
+    </a>
+    <a href="/history" class="card">
+        <div class="icon">📋</div>
+        <h3>Scan History</h3>
+        <p>View all your previous resume scans</p>
+    </a>
+</div>
+
+<footer>
+    <p>© 2026 ResumeSmart - AI Resume Screening System</p>
+</footer>
+
+</body>
+</html>
