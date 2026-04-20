@@ -7,14 +7,33 @@ app = Flask(__name__)
 app.secret_key = "resumesmart_secret_key"
 
 # Database connection
+
+
 def get_db():
-    return pymysql.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="resumesmart",
-        port=3306
-    )
+    host = os.environ.get("DB_HOST", "localhost")
+    user = os.environ.get("DB_USER", "root")
+    password = os.environ.get("DB_PASSWORD", "")
+    database = os.environ.get("DB_NAME", "resumesmart")
+    port = int(os.environ.get("DB_PORT", 3306))
+    
+    if host == "localhost":
+        return pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=database,
+            port=port
+        )
+    else:
+        return pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=database,
+            port=port,
+            ssl_verify_cert=False,
+            ssl_verify_identity=False
+        )
 
 @app.route("/")
 def home():
