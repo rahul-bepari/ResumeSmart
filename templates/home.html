@@ -4,113 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResumeSmart - AI Resume Analyzer</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f6fa; }
-        nav {
-            background: #2c3e50;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        nav h1 { color: white; font-size: 24px; }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
-        }
-        nav a:hover { color: #3498db; }
-        .hero {
-            text-align: center;
-            padding: 100px 20px;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-        }
-        .hero h2 { font-size: 42px; margin-bottom: 20px; }
-        .hero p { font-size: 18px; margin-bottom: 40px; }
-        .btn {
-            background: white;
-            color: #2c3e50;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            margin: 10px;
-            display: inline-block;
-        }
-        .btn:hover { background: #3498db; color: white; }
-        .features {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            padding: 60px 40px;
-            flex-wrap: wrap;
-        }
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            width: 250px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .card h3 { color: #2c3e50; margin-bottom: 10px; font-size: 20px; }
-        .card p { color: #666; font-size: 14px; }
-        .icon { font-size: 40px; margin-bottom: 15px; }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #2c3e50;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<nav>
-    <h1>ResumeSmart</h1>
-    <div>
+<nav class="navbar">
+    <div class="logo">Resume<span>Smart</span></div>
+    <div class="nav-links">
         <a href="/">Home</a>
         <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="/register" class="btn-nav">Get Started</a>
     </div>
 </nav>
 
 <div class="hero">
-    <h2>AI-Powered Resume Analyzer</h2>
-    <p>Upload your resume and get instant skill analysis, match score and feedback</p>
-    <a href="/register" class="btn">Get Started</a>
-    <a href="/login" class="btn">Login</a>
+    <h1>AI-Powered Resume<br>Screening Platform</h1>
+    <p>Upload your resume and instantly get skill analysis, job match score, and personalized feedback powered by our own AI engine.</p>
+    <div class="hero-buttons">
+        <a href="/register" class="btn-primary">Get Started Free</a>
+        <a href="/login" class="btn-secondary">Login</a>
+    </div>
 </div>
 
-<div class="features">
-    <div class="card">
-        <div class="icon">📄</div>
-        <h3>Resume Parsing</h3>
-        <p>Automatically extract skills and information from your PDF resume</p>
+<div class="stats-bar">
+    <div class="stat">
+        <div class="stat-number">8+</div>
+        <div class="stat-label">Job Roles Supported</div>
     </div>
-    <div class="card">
-        <div class="icon">🎯</div>
-        <h3>Match Score</h3>
-        <p>See how well your resume matches your target job role</p>
+    <div class="stat">
+        <div class="stat-number">5</div>
+        <div class="stat-label">AI Features</div>
     </div>
-    <div class="card">
-        <div class="icon">📊</div>
-        <h3>Skill Gap Analysis</h3>
-        <p>Find out which skills you are missing for your dream job</p>
+    <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Own AI Engine</div>
     </div>
-    <div class="card">
-        <div class="icon">⭐</div>
-        <h3>Resume Score</h3>
-        <p>Get a quality score and tips to improve your resume</p>
+    <div class="stat">
+        <div class="stat-number">Free</div>
+        <div class="stat-label">Always Free</div>
+    </div>
+</div>
+
+<div class="section" style="background: white;">
+    <h2 class="section-title">Everything You Need</h2>
+    <p class="section-subtitle">Five powerful AI features to help you land your dream job</p>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon icon-blue">📄</div>
+            <h3>Resume Parsing</h3>
+            <p>Automatically extract and analyze skills and information from your PDF resume</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon icon-green">🎯</div>
+            <h3>Job Match Score</h3>
+            <p>See exactly how well your resume matches your target job role using TF-IDF algorithm</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon icon-purple">📊</div>
+            <h3>Skill Gap Analysis</h3>
+            <p>Identify exactly which skills you are missing for your dream job position</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon icon-orange">⭐</div>
+            <h3>Resume Score</h3>
+            <p>Get an overall quality score and actionable tips to improve your resume</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon icon-pink">📋</div>
+            <h3>Scan History</h3>
+            <p>Track all your previous resume scans and monitor your improvement over time</p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">Three simple steps to analyze your resume</p>
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Upload Resume</h3>
+            <p>Upload your PDF resume and select your target job role</p>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>AI Analysis</h3>
+            <p>Our TF-IDF engine analyzes your resume against job requirements</p>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Get Results</h3>
+            <p>Receive your match score, skill gaps, and personalized feedback</p>
+        </div>
     </div>
 </div>
 
 <footer>
-    <p>© 2026 ResumeSmart - AI Resume Screening System</p>
+    <p>© 2026 <span>ResumeSmart</span> — AI Resume Screening System | Developed by Rahul Bepari</p>
 </footer>
 
 </body>

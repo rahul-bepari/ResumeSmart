@@ -4,144 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Resume - ResumeSmart</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f6fa; }
-        nav {
-            background: #2c3e50;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        nav h1 { color: white; font-size: 24px; }
-        nav a { color: white; text-decoration: none; margin-left: 20px; }
-        nav a:hover { color: #3498db; }
-        .container {
-            max-width: 600px;
-            margin: 60px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .upload-area {
-            border: 3px dashed #3498db;
-            border-radius: 12px;
-            padding: 50px 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            background: #f8fbff;
-        }
-        .upload-area .icon { font-size: 50px; margin-bottom: 15px; }
-        .upload-area p { color: #666; margin-bottom: 15px; }
-        input[type="file"] {
-            display: none;
-        }
-        .file-label {
-            background: #3498db;
-            color: white;
-            padding: 10px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .file-label:hover { background: #2c3e50; }
-        #file-name {
-            margin-top: 10px;
-            color: #3498db;
-            font-size: 14px;
-        }
-        select {
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-            color: #2c3e50;
-        }
-        select:focus { border-color: #3498db; }
-        button {
-            width: 100%;
-            padding: 13px;
-            background: #2c3e50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        button:hover { background: #3498db; }
-        .back { text-align: center; margin-top: 15px; }
-        .back a { color: #3498db; text-decoration: none; }
-        .error {
-            background: #ff4444;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<nav>
-    <h1>ResumeSmart</h1>
-    <div>
+<nav class="navbar">
+    <div class="logo">Resume<span>Smart</span></div>
+    <div class="nav-links">
         <a href="/dashboard">Dashboard</a>
+        <a href="/history">History</a>
         <a href="/logout">Logout</a>
     </div>
 </nav>
 
-<div class="container">
-    <h2>📄 Upload Your Resume</h2>
-    <p class="subtitle">Upload your PDF resume and select a job role to analyze</p>
+<div class="upload-container">
+    <div class="upload-card">
+        <h2>📄 Upload Your Resume</h2>
+        <p class="subtitle">Upload your PDF resume and select a job role to get instant AI analysis</p>
 
-    {% if error %}
-    <div class="error">{{ error }}</div>
-    {% endif %}
+        {% if error %}
+        <div class="error-msg">{{ error }}</div>
+        {% endif %}
 
-    <form method="POST" enctype="multipart/form-data">
-        <div class="upload-area">
-            <div class="icon">☁️</div>
-            <p>Click below to select your resume (PDF only)</p>
-            <label class="file-label" for="resume">Choose File</label>
-            <input type="file" name="resume" id="resume" accept=".pdf" required>
-            <div id="file-name">No file chosen</div>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="drop-zone">
+                <div class="drop-icon">☁️</div>
+                <p>Click below to select your resume</p>
+                <label class="file-btn" for="resume">Choose PDF File</label>
+                <input type="file" name="resume" id="resume" accept=".pdf" required style="display:none;">
+                <div class="file-name" id="file-name">No file chosen</div>
+            </div>
+
+            <select name="job_role" class="form-select" required>
+                <option value="" disabled selected>Select Target Job Role</option>
+                <option value="Web Developer">Web Developer</option>
+                <option value="Python Developer">Python Developer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="Android Developer">Android Developer</option>
+                <option value="UI/UX Designer">UI/UX Designer</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+            </select>
+
+            <button type="submit" class="btn-full">🔍 Analyze My Resume</button>
+        </form>
+
+        <div style="text-align:center; margin-top:20px;">
+            <a href="/dashboard" class="btn-outline">← Back to Dashboard</a>
         </div>
-
-        <select name="job_role" required>
-            <option value="" disabled selected>Select Target Job Role</option>
-            <option value="Web Developer">Web Developer</option>
-            <option value="Python Developer">Python Developer</option>
-            <option value="Data Analyst">Data Analyst</option>
-            <option value="Machine Learning Engineer">Machine Learning Engineer</option>
-            <option value="Android Developer">Android Developer</option>
-            <option value="UI/UX Designer">UI/UX Designer</option>
-            <option value="Software Engineer">Software Engineer</option>
-            <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
-        </select>
-
-        <button type="submit">🔍 Analyze My Resume</button>
-    </form>
-    <div class="back">
-        <a href="/dashboard">← Back to Dashboard</a>
     </div>
 </div>
+
+<footer>
+    <p>© 2026 <span>ResumeSmart</span> — AI Resume Screening System | Developed by Rahul Bepari</p>
+</footer>
 
 <script>
     document.getElementById('resume').addEventListener('change', function(){
