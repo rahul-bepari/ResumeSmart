@@ -168,5 +168,54 @@ def history():
     db.close()
     return render_template("history.html", results=results)
 
+@app.route("/profile")
+def profile():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    db = get_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+    
+    # Get user info
+    cursor.execute("SELECT * FROM users WHERE id = %s", (session["user_id"],))
+    user = cursor.fetchone()
+    
+    # Get total scans
+    cursor.execute("SELECT COUNT(*) as total FROM scan_results WHERE user_id = %s", (session["user_id"],))
+    total_scans = cursor.fetchone()["total"]
+    
+    # Get average match score
+    cursor.execute("SELECT AVG(match_score) as avg_match FROM scan_results WHERE user_id = %s", (session["user_id"],))
+    avg_result = cursor.fetchone()
+    avg_match = round(avg_result["avg_match"], 2) if avg_result["avg_match"] else 0
+    
+    # Get best match score
+    cursor.execute("SELECT MAX(match_score) as best FROM scan_results WHERE user_id = %s", (session["user_id"],))
+    best_result = cursor.fetchone()
+    best_score = round(best_result["best"], 2) if best_result["best"] else 0
+    
+    # Get average resume score
+    cursor.execute("SELECT AVG(resume_score) as avg_resume FROM scan_results WHERE user_id = %s", (session["user_id"],))
+    avg_resume_result = cursor.fetchone()
+    avg_resume = round(avg_resume_result["avg_resume"], 2) if avg_resume_result["avg_resume"] else 0
+
+    # Get recent scans
+    cursor.execute("""
+        SELECT sr.*, r.filename 
+        FROM scan_results sr 
+        JOIN resumes r ON sr.resume_id = r.id 
+        WHERE sr.user_id = %s 
+        ORDER BY sr.scanned_at DESC LIMIT 3
+    """, (session["user_id"],))
+    recent_scans = cursor.fetchall()
+    db.close()
+    
+    return render_template("profile.html",
+                         user=user,
+                         total_scans=total_scans,
+                         avg_match=avg_match,
+                         best_score=best_score,
+                         avg_resume=avg_resume,
+                         recent_scans=recent_scans)
+
 if __name__ == "__main__":
     app.run(debug=True)
