@@ -59,5 +59,123 @@
     <p>© 2026 <span>ResumeSmart</span> — AI Resume Screening System | Developed by Rahul Bepari</p>
 </footer>
 
+<!-- Chat Button -->
+<div id="chat-btn" onclick="toggleChat()" style="
+    position: fixed; bottom: 30px; right: 30px;
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, #1a56db, #0e9f6e);
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; box-shadow: 0 4px 20px rgba(26,86,219,0.4);
+    z-index: 1000; transition: transform 0.2s;">
+    🤖
+</div>
+
+<!-- Chat Window -->
+<div id="chat-window" style="
+    display: none;
+    position: fixed; bottom: 100px; right: 30px;
+    width: 350px; height: 450px;
+    background: white; border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    border: 1px solid #e2e8f0;
+    z-index: 1000; flex-direction: column;
+    overflow: hidden;">
+    
+    <!-- Header -->
+    <div style="
+        background: linear-gradient(135deg, #1a56db, #0e9f6e);
+        padding: 15px 20px; color: white;
+        display: flex; align-items: center; gap: 10px;">
+        <div style="font-size: 24px;">🤖</div>
+        <div>
+            <div style="font-weight: 700; font-size: 15px;">Career Assistant</div>
+            <div style="font-size: 12px; opacity: 0.85;">Powered by Gemini AI</div>
+        </div>
+        <div onclick="toggleChat()" style="margin-left:auto; cursor:pointer; font-size:20px;">✕</div>
+    </div>
+
+    <!-- Messages -->
+    <div id="chat-messages" style="
+        flex: 1; overflow-y: auto;
+        padding: 15px; display: flex;
+        flex-direction: column; gap: 12px;
+        height: 320px;">
+        <div style="
+            background: #f0f4f8; padding: 12px 15px;
+            border-radius: 15px 15px 15px 0;
+            font-size: 14px; color: #1a202c; max-width: 85%;">
+            👋 Hi! I am your Career Assistant. Ask me anything about resumes, skills, or career advice!
+        </div>
+    </div>
+
+    <!-- Input -->
+    <div style="padding: 12px; border-top: 1px solid #e2e8f0; display: flex; gap: 8px;">
+        <input type="text" id="chat-input"
+            placeholder="Ask me anything..."
+            style="flex: 1; padding: 10px 14px; border: 2px solid #e2e8f0;
+            border-radius: 25px; font-size: 14px; outline: none;
+            font-family: 'Inter', sans-serif;"
+            onkeypress="if(event.key==='Enter') sendMessage()">
+        <button onclick="sendMessage()" style="
+            background: #1a56db; color: white;
+            border: none; border-radius: 50%;
+            width: 40px; height: 40px; cursor: pointer;
+            font-size: 18px; display: flex;
+            align-items: center; justify-content: center;">➤</button>
+    </div>
+</div>
+
+<script>
+function toggleChat() {
+    const win = document.getElementById('chat-window');
+    win.style.display = win.style.display === 'none' ? 'flex' : 'none';
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const messages = document.getElementById('chat-messages');
+    const message = input.value.trim();
+    if (!message) return;
+
+    // Show user message
+    messages.innerHTML += `
+        <div style="background: #1a56db; color: white; padding: 12px 15px;
+            border-radius: 15px 15px 0 15px; font-size: 14px;
+            max-width: 85%; align-self: flex-end; margin-left: auto;">
+            ${message}
+        </div>`;
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    // Show typing indicator
+    messages.innerHTML += `
+        <div id="typing" style="background: #f0f4f8; padding: 12px 15px;
+            border-radius: 15px 15px 15px 0; font-size: 14px;
+            color: #718096; max-width: 85%;">
+            ✍️ Typing...
+        </div>`;
+    messages.scrollTop = messages.scrollHeight;
+
+    // Call API
+    const response = await fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: message})
+    });
+    const data = await response.json();
+
+    // Remove typing and show reply
+    document.getElementById('typing').remove();
+    messages.innerHTML += `
+        <div style="background: #f0f4f8; padding: 12px 15px;
+            border-radius: 15px 15px 15px 0; font-size: 14px;
+            color: #1a202c; max-width: 85%;">
+            🤖 ${data.reply}
+        </div>`;
+    messages.scrollTop = messages.scrollHeight;
+}
+</script>
+
 </body>
 </html>

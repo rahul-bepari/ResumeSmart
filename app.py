@@ -2,9 +2,15 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from engine import extract_text, extract_skills, calculate_match_score, calculate_resume_score
 import pymysql
 import os
+import google.generativeai as genai
+
 
 app = Flask(__name__)
 app.secret_key = "resumesmart_secret_key"
+# Configure Gemini AI
+genai.configure(api_key="AIzaSyBkBv2ZmdZlt8DJ9_bREMUh_oXNU0tNsk0")
+gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+
 
 # Database connection
 
@@ -216,6 +222,27 @@ def profile():
                          best_score=best_score,
                          avg_resume=avg_resume,
                          recent_scans=recent_scans)
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    if "user_id" not in session:
+        return {"error": "Not logged in"}, 401
+    
+    user_message = request.json.get("message", "")
+    
+    system_prompt = """You are ResumeSmart Career Assistant, a helpful AI career advisor. 
+    You help job seekers with:
+    - Resume writing tips
+    - Skill improvement advice
+    - Career guidance
+    - Job search strategies
+    - Interview preparation
+    Keep responses short, friendly and practical. Maximum 3-4 sentences."""
+    
+    full_prompt = f"{system_prompt}\n\nUser: {user_message}\nAssistant:"
+    
+    response = gemini_model.generate_content(full_prompt)
+    return {"reply": response.text}
 
 if __name__ == "__main__":
     app.run(debug=True)
