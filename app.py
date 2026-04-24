@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.secret_key = "resumesmart_secret_key"
 # Configure Gemini AI
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY", "AIzaSyDil4BN0jbMIVHJytw0YaPqelzQFoBtu3k"))
-gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+gemini_model = genai.GenerativeModel('gemini-2.0-flash')
 
 
 # Database connection
