@@ -2,14 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from engine import extract_text, extract_skills, calculate_match_score, calculate_resume_score
 import pymysql
 import os
-import google.generativeai as genai
+from groq import Groq
 
 
 app = Flask(__name__)
 app.secret_key = "resumesmart_secret_key"
 # Configure Gemini AI
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY", "AIzaSyDil4BN0jbMIVHJytw0YaPqelzQFoBtu3k"))
-gemini_model = genai.GenerativeModel('gemini-2.0-flash')
+groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY", ""))
 
 
 # Database connection
@@ -230,19 +229,25 @@ def chat():
     
     user_message = request.json.get("message", "")
     
-    system_prompt = """You are ResumeSmart Career Assistant, a helpful AI career advisor. 
-    You help job seekers with:
-    - Resume writing tips
-    - Skill improvement advice
-    - Career guidance
-    - Job search strategies
-    - Interview preparation
-    Keep responses short, friendly and practical. Maximum 3-4 sentences."""
+    response = groq_client.chat.completions.create(
+        model="llama3-8b-8192",
+        messages=[
+            {
+                "role": "system",
+                "content": """You are ResumeSmart Career Assistant, a helpful AI career advisor. 
+                You help job seekers with resume writing tips, skill improvement advice, 
+                career guidance, job search strategies, and interview preparation.
+                Keep responses short, friendly and practical. Maximum 3-4 sentences."""
+            },
+            {
+                "role": "user",
+                "content": user_message
+            }
+        ]
+    )
     
-    full_prompt = f"{system_prompt}\n\nUser: {user_message}\nAssistant:"
-    
-    response = gemini_model.generate_content(full_prompt)
-    return {"reply": response.text}
+    reply = response.choices[0].message.content
+    return {"reply": reply}
 
 if __name__ == "__main__":
     app.run(debug=True)
